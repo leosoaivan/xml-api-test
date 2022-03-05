@@ -1,23 +1,17 @@
 const express = require('express')
 const setAppMiddleware = require('./lib/setAppMiddleware')
-// const handlebars = require('express-handlebars')
-// const app = require('./app')
-const app = express();
-const PORT = 3000;
+const setAppRoutes = require('./lib/setAppRoutes')
 
-setAppMiddleware(app);
+const app = express()
+const PORT = 3000
 
-// Middleware
-// app.engine('handlebars', handlebars.engine())
-// app.set('view engine', 'handlebars')
-// app.set('views', './views')
+setAppMiddleware(app)
+setAppRoutes(app)
 
 // Routes
 app.get('/', (req, res) => {
   res.render('index')
 })
-
-app.use('/articles', require('./routes/articles/articles'))
 
 app.get('/authors', (req, res) => {
   res.render('authors/index')

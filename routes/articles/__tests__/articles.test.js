@@ -1,14 +1,12 @@
 const express = require('express')
 const request = require('supertest')
 const setAppMiddleware = require('../../../lib/setAppMiddleware')
-const articles = require('../articles')
+const setAppRoutes = require('../../../lib/setAppRoutes')
 
 const app = new express();
 
 setAppMiddleware(app)
-app.use('/articles', articles)
-// app.engine('handlebars', handlebars.engine())
-// app.set('view engine', 'handlebars')
+setAppRoutes(app)
 
 describe('Routes - Articles', () => {
   /**
