@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-app.use('/articles', require('./routes/articles'))
+app.use('/articles', require('./routes/articles').router)
 
 app.get('/authors', (req, res) => {
   res.render('authors/index')

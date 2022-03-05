@@ -19,6 +19,17 @@ const paramsObj = {
 }
 const params = new URLSearchParams(paramsObj)
 
+const fetchAndParseXML = async () => {
+  const response = await fetch(`${API_ENDPOINT}/query?${params}`)
+
+  if (response.ok) {
+    const data = await response.text()
+    return parser.parseStringPromise(data)
+  }
+
+  throw new Error('Could not fetch or parse XML')
+}
+
 const transformResults = (results) => {
   const { entry: entries } = results?.feed || { entries: [] }
 
@@ -26,21 +37,16 @@ const transformResults = (results) => {
 }
 
 const rootHandler = async (req, res) => {
-  const response = await fetch(`${API_ENDPOINT}/query?${params}`)
+  const results = await fetchAndParseXML()
+  const entries = transformResults(results)
 
-  if (response.ok) {
-    const data = await response.text()
-    const results = await parser.parseStringPromise(data)
-    const entries = transformResults(results)
-
-    console.log(entries)
-
-    res.render('articles/index', { entries })
-  } else {
-    res.send('Something broke')
-  }
+  res.render('articles/index', { entries })
 }
 
 router.get('/', rootHandler)
 
-module.exports = router
+module.exports = {
+  router,
+  fetchAndParseXML,
+  transformResults,
+}
