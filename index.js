@@ -1,15 +1,13 @@
 const setApp = require('./lib/setApp')
 
 const PORT = 3000
+
+// Setup app with middleware and routers
 const app = setApp()
 
 // Routes
 app.get('/', (req, res) => {
   res.render('index')
-})
-
-app.get('/authors', (req, res) => {
-  res.render('authors/index')
 })
 
 // Listen
