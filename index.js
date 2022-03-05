@@ -1,12 +1,7 @@
-const express = require('express')
-const setAppMiddleware = require('./lib/setAppMiddleware')
-const setAppRoutes = require('./lib/setAppRoutes')
+const setApp = require('./lib/setApp')
 
-const app = express()
 const PORT = 3000
-
-setAppMiddleware(app)
-setAppRoutes(app)
+const app = setApp()
 
 // Routes
 app.get('/', (req, res) => {

@@ -1,12 +1,7 @@
-const express = require('express')
 const request = require('supertest')
-const setAppMiddleware = require('../../../lib/setAppMiddleware')
-const setAppRoutes = require('../../../lib/setAppRoutes')
+const setApp = require('../../../lib/setApp')
 
-const app = new express();
-
-setAppMiddleware(app)
-setAppRoutes(app)
+const app = setApp();
 
 describe('Routes - Articles', () => {
   /**
