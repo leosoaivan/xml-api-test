@@ -13,13 +13,12 @@ app.set('views', './views')
 app.get('/', (req, res) => {
   res.render('index')
 })
-app.get('/articles', (req, res) => {
-  res.render('articles/index')
-})
+
+app.use('/articles', require('./routes/articles'))
+
 app.get('/authors', (req, res) => {
   res.render('authors/index')
 })
-
 
 // Listen
 app.listen(PORT, () => {

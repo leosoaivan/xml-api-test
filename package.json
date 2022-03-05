@@ -20,7 +20,9 @@
   "homepage": "https://github.com/leosoaivan/arXiv2.0-test#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "express-handlebars": "^6.0.3"
+    "express-handlebars": "^6.0.3",
+    "node-fetch": "^2.6.7",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

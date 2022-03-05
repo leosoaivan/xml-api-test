@@ -1,3 +1,11 @@
 <h1>Articles</h1>
 <a href="/">Homepage</a>
 <a href="/authors">Authors</a>
+
+{{#each entries}}
+<ul>
+  <li>
+    {{this.title}}. {{this.updated}}
+  </li>
+</ul>
+{{/each}}
