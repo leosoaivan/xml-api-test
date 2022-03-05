@@ -19,13 +19,19 @@ const paramsObj = {
 }
 const params = new URLSearchParams(paramsObj)
 
-router.get('/', async (req, res) => {
+const transformResults = (results) => {
+  const { entry: entries } = results?.feed || { entries: [] }
+
+  return entries
+}
+
+const rootHandler = async (req, res) => {
   const response = await fetch(`${API_ENDPOINT}/query?${params}`)
 
   if (response.ok) {
     const data = await response.text()
     const results = await parser.parseStringPromise(data)
-    const { entry: entries } = results.feed
+    const entries = transformResults(results)
 
     console.log(entries)
 
@@ -33,6 +39,8 @@ router.get('/', async (req, res) => {
   } else {
     res.send('Something broke')
   }
-})
+}
+
+router.get('/', rootHandler)
 
 module.exports = router
