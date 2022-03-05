@@ -29,8 +29,8 @@ module.exports = {
   },
 
   transformResults: (results) => {
-    const { entry: entries } = results?.feed || { entries: [] }
+    const { entry } = results?.feed || { entry: [] }
 
-    return entries
+    return entry
   }
 }
