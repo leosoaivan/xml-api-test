@@ -1,13 +1,16 @@
 const express = require('express')
-const handlebars = require('express-handlebars')
-
+const setAppMiddleware = require('./lib/setAppMiddleware')
+// const handlebars = require('express-handlebars')
+// const app = require('./app')
 const app = express();
 const PORT = 3000;
 
+setAppMiddleware(app);
+
 // Middleware
-app.engine('handlebars', handlebars.engine())
-app.set('view engine', 'handlebars')
-app.set('views', './views')
+// app.engine('handlebars', handlebars.engine())
+// app.set('view engine', 'handlebars')
+// app.set('views', './views')
 
 // Routes
 app.get('/', (req, res) => {
