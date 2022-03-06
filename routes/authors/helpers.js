@@ -28,11 +28,17 @@ module.exports = {
   transformResults: (parsedXML) => {
     const { entry } = parsedXML?.feed || { entry: [] }
 
+    /**
+     * Create an object for each author that holds information about their latest article updates
+     * and the number of articles they've written within the response requested from arXiv, which
+     * is an indeterminate time as of now.
+     */
     const results = entry.reduce((acc, article) => {
-      // Loop through the author array and add each author name form the object to the results object, with a count of +=1 for articles written
+      // An article can have multiple authors
       article.author.forEach((auth) => {
-        // If the author is not the object, add them. Else, add 1 to articlesCount
         const name = auth.name[0]
+
+        // Add new authors to the accumulator object, or add +1 to their articlesCount
         if (!acc[name]) {
           acc[name] = {
             name,
@@ -42,11 +48,10 @@ module.exports = {
           acc[name]['articlesCount'] += 1
         }
 
-        // Add the most recent updated date
+        // Add new instances of the updated date, or compare the ISO 8601 date strings, and use the latest one
         if (!acc[name]['updated']) {
           acc[name]['updated'] = article.updated[0]
         } else {
-          // Compare the two dates
           acc[name]['updated'] = new Date(article.updated[0]) < new Date(acc[name]['updated']) ? article.updated[0] : acc[name]['updated']
         }
       })
