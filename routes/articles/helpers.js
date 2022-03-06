@@ -4,13 +4,13 @@ const xml2js = require('xml2js')
 const parser = new xml2js.Parser();
 const API_ENDPOINT = 'http://export.arxiv.org/api';
 const KEYWORDS = [
-  'data science',
-  'machine learning',
-  'psychiatry',
-  'therapy',
+  'all:data science',
+  'all:machine learning',
+  'all:psychiatry',
+  'all:therapy',
 ]
 const paramsObj = {
-  search_query: KEYWORDS.join('OR'),
+  search_query: KEYWORDS.join(' OR '),
   sortBy: 'lastUpdatedDate',
   sortOrder: 'descending',
 }
