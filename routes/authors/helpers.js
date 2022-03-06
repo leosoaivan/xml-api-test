@@ -4,9 +4,7 @@ const xml2js = require('xml2js')
 const parser = new xml2js.Parser();
 const API_ENDPOINT = 'http://export.arxiv.org/api';
 const KEYWORDS = [
-  'ginger',
-  'head',
-  'space',
+  'all:ginger',
 ]
 const paramsObj = {
   search_query: KEYWORDS.join('OR'),
@@ -27,9 +25,35 @@ module.exports = {
     throw new Error('Could not fetch or parse XML')
   },
 
-  transformResults: (results) => {
-    const { entry } = results?.feed || { entry: [] }
+  transformResults: (parsedXML) => {
+    const { entry } = parsedXML?.feed || { entry: [] }
 
-    return entry
+    const results = entry.reduce((acc, article) => {
+      // Loop through the author array and add each author name form the object to the results object, with a count of +=1 for articles written
+      article.author.forEach((auth) => {
+        // If the author is not the object, add them. Else, add 1 to articlesCount
+        const name = auth.name[0]
+        if (!acc[name]) {
+          acc[name] = {
+            name,
+            articlesCount: 1
+          }
+        } else {
+          acc[name]['articlesCount'] += 1
+        }
+
+        // Add the most recent updated date
+        if (!acc[name]['updated']) {
+          acc[name]['updated'] = article.updated[0]
+        } else {
+          // Compare the two dates
+          acc[name]['updated'] = new Date(article.updated[0]) < new Date(acc[name]['updated']) ? article.updated[0] : acc[name]['updated']
+        }
+      })
+
+      return acc
+    }, {})
+
+    return Object.values(results).sort((a, b) => new Date(a.articlesCount) < new Date(b.articlesCount))
   }
 }
