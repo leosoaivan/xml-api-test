@@ -13,7 +13,7 @@ const paramsObj = {
 }
 const params = new URLSearchParams(paramsObj)
 
-module.exports = {
+const authorsHelpers = {
   fetchAndParseXML: async () => {
     const response = await fetch(`${API_ENDPOINT}/query?${params}`)
 
@@ -26,8 +26,8 @@ module.exports = {
   },
 
   indexHandler: async (req, res) => {
-    const results = await fetchAndParseXML()
-    const entries = transformResults(results)
+    const results = await authorsHelpers.fetchAndParseXML()
+    const entries = authorsHelpers.transformResults(results)
 
     res.render('authors/index', { entries })
   },
@@ -69,3 +69,5 @@ module.exports = {
     return Object.values(results).sort((a, b) => new Date(a.articlesCount) < new Date(b.articlesCount))
   }
 }
+
+module.exports = authorsHelpers
