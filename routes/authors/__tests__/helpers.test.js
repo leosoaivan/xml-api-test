@@ -1,0 +1,2 @@
+describe('Authors helpers', () => {
+})
