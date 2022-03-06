@@ -25,6 +25,13 @@ module.exports = {
     throw new Error('Could not fetch or parse XML')
   },
 
+  indexHandler: async (req, res) => {
+    const results = await fetchAndParseXML()
+    const entries = transformResults(results)
+
+    res.render('authors/index', { entries })
+  },
+
   transformResults: (parsedXML) => {
     const { entry } = parsedXML?.feed || { entry: [] }
 
